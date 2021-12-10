@@ -15,10 +15,21 @@ import {
 } from 'react-native';
 
 import Geolocation from 'react-native-geolocation-service';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const {height,width:SCREEN_WIDTH} = Dimensions.get('window')
 
-const API_KEY = 'API_KEYS';
+const API_KEY = 'API_KEY';
+const icons={
+  "Clouds" : 'cloudy',
+  "Rain" : 'rainy',
+  "Clear" : 'sunny',
+  Atmosphere: "",
+  Snow:"snow",
+  Drizzle:"umbrella",
+  Thunderstorm :"thunderstorm",
+  
+}
 
 const App = () => {
   const [location, setLocation] = useState(null);
@@ -100,9 +111,15 @@ const App = () => {
             const date = moment(item.dt*1000);
             return (
               <View style={styles.day} key={idx}>
-                <Text>{`${date.month()+1}월 ${date.date()}일`}</Text>
-                <Text style={styles.temp}>{parseFloat(item.temp.day).toFixed(1)}</Text>
-                <Text style={styles.description}>{item.weather[0].main}</Text>
+                <Text>{`${date.month() + 1}월 ${date.date()}일`}</Text>
+                <View style={{ flexDirection: 'row', alignItems:'center',justifyContent:'space-between' }}>
+                  <Text style={styles.temp}>{parseFloat(item.temp.day).toFixed(1)}</Text>
+                  <Icon name={`${icons[item.weather[0].main]}-outline`} size={68} style={{color:'black'}}/>
+                </View>
+
+                <Text style={styles.description}>
+                  {item.weather[0].main}
+                </Text>
                 <Text style={styles.tinyText}>{item.weather[0].description}</Text>
               </View>
             )
@@ -115,7 +132,7 @@ const App = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'tomato',
+    backgroundColor: 'gold',
   },
   city: {
     flex: 1.2,
@@ -125,16 +142,20 @@ const styles = StyleSheet.create({
   cityName: {
     fontSize: 68,
     fontWeight: '600',
+    color:'black'
   },
   weather: {
   },
   day : {
-    alignItems:'center',
+    paddingLeft : 20,
+    paddingRight : 20,
     width:SCREEN_WIDTH,
   },
   temp:{
-    fontSize : 168,
-    marginTop:50
+    fontSize : 110,
+    marginTop:50,
+    color:'black',
+    fontWeight: '600',
     
   },
   description:{
